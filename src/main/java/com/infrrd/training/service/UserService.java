@@ -35,4 +35,9 @@ public class UserService {
 	public void removeUser(String uid) {
 		userRepository.deleteUser(uid);
 	}
+
+	public void updateUser(String uid, String address) {
+		userRepository.updateUser(uid, address);
+		
+	}
 }

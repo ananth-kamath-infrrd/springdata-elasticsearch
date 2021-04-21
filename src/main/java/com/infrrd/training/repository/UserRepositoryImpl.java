@@ -2,6 +2,7 @@ package com.infrrd.training.repository;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -12,6 +13,8 @@ import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexRequest;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.action.update.UpdateRequest;
+import org.elasticsearch.action.update.UpdateResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -161,6 +164,28 @@ public class UserRepositoryImpl implements UserRepository {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	public void updateUser(String uid, String address) {
+		// create a Json map to contain the update document source
+		Map<String, Object> jsonMap = new HashMap<>();
+		jsonMap.put("address", address);
+		
+		// Create an object of UpdateRequest and assign Json map as document to be updated with.
+		UpdateRequest updateRequest = new UpdateRequest("userimage", uid).doc(jsonMap); 
+		try {
+			UpdateResponse updateResponse = client.update(updateRequest, RequestOptions.DEFAULT);
+			// Check the result of updation of document
+			if(updateResponse.getResult() == DocWriteResponse.Result.UPDATED) {
+				System.out.println("Success");
+			} else {
+				System.out.println("Not Successful");
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }
 

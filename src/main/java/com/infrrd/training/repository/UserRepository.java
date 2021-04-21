@@ -20,5 +20,7 @@ public interface UserRepository {
 	
 	void deleteUser(String uid);
 
+	void updateUser(String uid, String address);
+
 
 }
